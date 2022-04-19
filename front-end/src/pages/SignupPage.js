@@ -22,7 +22,7 @@ export function SignupPage() {
 
     setToken(token);
 
-    history.push("/");
+    history.push("/success-signup");
   };
   return (
     <div className="content-container">

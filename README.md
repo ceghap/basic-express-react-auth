@@ -2,6 +2,7 @@
 
 - Nodejs
 - Docker
+- Sendgrid (email provider)
 
 ## Getting started
 
@@ -22,6 +23,7 @@
        DB_USER = root
        DB_PASS = root
        DB_PORT = 27017
+       SENDGRID_API_KEY = xxxxx
    ```
 1. start both frontend and backend
    - `cd front-end`

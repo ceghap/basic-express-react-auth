@@ -23,9 +23,14 @@ export const updateUserInfoRoute = {
     }
     const token = authorization.split(" ")[1];
 
-    const { id } = await jwt.verify(token, process.env.JWT_SECRET);
+    const { id, verified } = await jwt.verify(token, process.env.JWT_SECRET);
 
     if (id !== userId) return res.status(403).json({ message: "Forbidden" });
+    if (!verified)
+      return res.status(403).json({
+        message: "Please verify your email before you can update your data",
+      });
+
     const db = await getDbConnection(process.env.DB_NAME);
     const result = await db
       .collection("users")
@@ -35,7 +40,7 @@ export const updateUserInfoRoute = {
         { returnOriginal: false }
       );
 
-    const { email, verified, info } = result.value;
+    const { email, info } = result.value;
 
     jwt.sign(
       { id, email, verified, info },

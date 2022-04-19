@@ -9,7 +9,7 @@ export const UserInfoPage = () => {
 
   const [token, setToken] = useToken();
 
-  const { id, email, info } = user;
+  const { id, email, info, verified } = user;
 
   // We'll use the history to navigate the user
   // programmatically later on (we're not using it yet)
@@ -78,6 +78,12 @@ export const UserInfoPage = () => {
   return (
     <div className="content-container">
       <h1>Info for {email}</h1>
+      {!verified && (
+        <div className="fail">
+          You won't be able to make any changes until you verify your email
+          address.
+        </div>
+      )}
       {showSuccessMessage && (
         <div className="success">Successfully saved user data!</div>
       )}
@@ -105,8 +111,12 @@ export const UserInfoPage = () => {
         <input onChange={(e) => setBio(e.target.value)} value={bio} />
       </label>
       <hr />
-      <button onClick={saveChanges}>Save Changes</button>
-      <button onClick={resetValues}>Reset Values</button>
+      <button onClick={saveChanges} disabled={!verified}>
+        Save Changes
+      </button>
+      <button onClick={resetValues} disabled={!verified}>
+        Reset Values
+      </button>
       <button onClick={logOut}>Log Out</button>
     </div>
   );
