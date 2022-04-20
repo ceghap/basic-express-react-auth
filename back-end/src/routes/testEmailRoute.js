@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { sendEmail } from "./utils/sendEmail";
 
 export const testEmailRoute = {
@@ -8,7 +9,7 @@ export const testEmailRoute = {
     try {
       await sendEmail({
         to: "hello@ceghap.com",
-        from: "n8y99zlby@mozmail.com",
+        from: process.env.SENDER_EMAIL,
         subject: "Test email",
         text: "This is a test email",
         html: "<h1>This is a test email</h1>",

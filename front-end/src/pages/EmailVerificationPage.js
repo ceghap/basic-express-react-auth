@@ -24,7 +24,7 @@ const Failed = () => {
   return (
     <div className="content-container">
       <h1>Failed!</h1>
-      <p>Somehing went wrong while trying to verify your email.</p>
+      <p>Something went wrong while trying to verify your email.</p>
       <button onClick={() => history.push("/signup")}>
         Back to signup page
       </button>

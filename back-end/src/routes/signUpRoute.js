@@ -39,7 +39,7 @@ export const signUpRoute = {
     try {
       await sendEmail({
         to: email,
-        from: "n8y99zlby@mozmail.com",
+        from: process.env.SENDER_EMAIL,
         subject: "Please verify your email",
         text: `
           Thanks for signing up! To verify your email, click here:
