@@ -1,14 +1,23 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { useToken } from "../auth/useToken";
 import axios from "axios";
+
+function useQuery() {
+  const { search } = useLocation();
+
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 
 export function LoginPage() {
   const [, setToken] = useToken();
 
+  const query = useQuery();
+
   const [error, setError] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [googleOauthUrl, setGoogleOauthUrl] = useState("");
 
   const history = useHistory();
   const onLogin = async () => {
@@ -23,6 +32,28 @@ export function LoginPage() {
 
     history.push("/");
   };
+
+  useEffect(() => {
+    if (query.get("token")) {
+      setToken(query.get("token"));
+      history.push("/");
+    }
+  }, [query, history, setToken]);
+
+  useEffect(() => {
+    const getGoogleOauthUrl = async () => {
+      try {
+        const response = await axios.get("/auth/google/url");
+        const { url } = response.data;
+        setGoogleOauthUrl(url);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getGoogleOauthUrl();
+  }, []);
+
   return (
     <div className="content-container">
       <h1>Login</h1>
@@ -49,6 +80,12 @@ export function LoginPage() {
       </button>
       <button onClick={() => history.push("/signup")}>
         Don't have an account? Sign up
+      </button>
+      <button
+        disabled={!googleOauthUrl}
+        onClick={() => (window.location.href = googleOauthUrl)}
+      >
+        Login with Google
       </button>
     </div>
   );

@@ -25,6 +25,8 @@
        DB_PORT = 27017
        SENDGRID_API_KEY = xxxxx
        SENDER_EMAIL = xxxx@xxx.xxx
+       GOOGLE_CLIENT_ID = xxx
+       GOOGLE_CLIENT_SECRET = xxx
    ```
 1. start both frontend and backend
    - `cd front-end`
